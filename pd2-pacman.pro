@@ -26,10 +26,27 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    pacman.cpp \
+    role.cpp \
+    dot.cpp \
+    blinky.cpp \
+    clyde.cpp \
+    inky.cpp \
+    pinky.cpp \
+    pellet.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    role.h \
+    pacman.h \
+    pinky.h \
+    blinky.h \
+    inky.h \
+    clyde.h \
+    dot.h \
+    pellet.h \
+    item.h
 
 FORMS += \
         mainwindow.ui
@@ -38,3 +55,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    src.qrc
