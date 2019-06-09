@@ -12,8 +12,8 @@ Inky::Inky() {
     frightened[0][0].load(":/img/nerf11.png");
     frightened[0][1].load(":/img/nerf12.png");
     this->setPixmap(inky[3][0].scaled(35,35));
-    row = 29;
-    col = 1;
+    row = 14;
+    col = 13;
     this->setPos(20*col-5, 20*row-5);
     direction = 1;
     i = 0;
@@ -63,8 +63,8 @@ void Inky::changemode(int i) {
 }
 
 void Inky::init() {
-    row = 29;
-    col = 1;
+    row = 14;
+    col = 13;
     this->setPos(20*col-5, 20*row-5);
     mode = 0;
 }

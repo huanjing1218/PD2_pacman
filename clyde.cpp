@@ -12,8 +12,8 @@ Clyde::Clyde() {
     frightened[0][0].load(":/img/nerf11.png");
     frightened[0][1].load(":/img/nerf12.png");
     this->setPixmap(clyde[3][0].scaled(35,35));
-    row = 1;
-    col = 26;
+    row = 14;
+    col = 11;
     this->setPos(20*col-5, 20*row-5);
     direction = 3;
     i = 0;
@@ -109,8 +109,8 @@ void Clyde::changemode(int i) {
 }
 
 void Clyde::init() {
-    row = 1;
-    col = 26;
+    row = 14;
+    col = 11;
     this->setPos(20*col-5, 20*row-5);
     mode = 0;
 }

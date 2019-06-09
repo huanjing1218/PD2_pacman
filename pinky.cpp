@@ -12,8 +12,8 @@ Pinky::Pinky() {
     frightened[0][0].load(":/img/nerf11.png");
     frightened[0][1].load(":/img/nerf12.png");
     this->setPixmap(pinky[3][0].scaled(35,35));
-    row = 29;
-    col = 26;
+    row = 14;
+    col = 15;
     this->setPos(20*col-5, 20*row-5);
     direction = 3;
     i = 0;
@@ -63,8 +63,8 @@ void Pinky::changemode(int i) {
 }
 
 void Pinky::init() {
-    row = 29;
-    col = 26;
+    row = 14;
+    col = 15;
     this->setPos(20*col-5, 20*row-5);
     mode = 0;
 }
