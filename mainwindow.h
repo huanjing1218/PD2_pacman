@@ -38,20 +38,23 @@ public slots:
     void pacinfo();
     void mode();
     void quit();
+    void stopgame();
+    void recover();
 private:
     Ui::MainWindow *ui;
 
     QGraphicsScene *scene;
     QGraphicsTextItem *score, *win, *lose;
     QGraphicsPixmapItem *mapimg, *title;
-    QPushButton *start, *newgame;
+    QPushButton *start, *newgame, *pause;
     QString map[31][28];
     Role *ptr, *ptr1, *ptr2, *ptr3, *ptr4;
     Item *item[31][28];
-    QTimer *count, *pos, *frighten;
+    QTimer *count, *pos, *frighten, *stopGame;
     int point;
     int dotnum;
     bool scared;
+    bool scared1, scared2, scared3, scared4;
 };
 
 #endif // MAINWINDOW_H

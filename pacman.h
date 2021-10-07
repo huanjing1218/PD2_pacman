@@ -12,6 +12,7 @@ public:
     Pacman();
     void keyPressEvent(QKeyEvent *event);
     void canmove(int i);
+    void pause();
     virtual void check();
     virtual void play();
     virtual void stop();

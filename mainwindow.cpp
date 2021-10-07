@@ -15,6 +15,10 @@ MainWindow::MainWindow(QWidget *parent) :
     point = 0;
     dotnum = 0;
     scared = false;
+    scared1 = false;
+    scared2 = false;
+    scared3 = false;
+    scared4 = false;
 
     QString data;
     QFile file(":/map/map.txt");
@@ -25,7 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
             for(int j = 0; j < 28; ++j) {
                 map[i][j] = data[j];
             }
-
         }
     }
     for(int i = 0; i < 31; ++i) {
@@ -84,6 +87,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(newgame, SIGNAL(clicked()), this, SLOT(quit()));
     newgame->hide();
 
+    pause = new QPushButton("STOP", this);
+    pause->setFont(QFont("", 15));
+    pause->setPalette(QColor(Qt::blue));
+    pause->setGeometry(460,620,100,50);
+    pause->setStyleSheet("color:white");
+    connect(pause, SIGNAL(clicked()), this, SLOT(stopgame()));
+    pause->hide();
+
     title = new QGraphicsPixmapItem();
     title->setPixmap(QPixmap(":/img/title.png").scaled(420,100));
     title->setPos(70,150);
@@ -95,6 +106,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     frighten = new QTimer();
     connect(frighten, SIGNAL(timeout()), this, SLOT(mode()));
+
+    stopGame = new QTimer();
+    connect(stopGame, SIGNAL(timeout()), this, SLOT(recover()));
 
     win = new QGraphicsTextItem("You win!");
     win->setFont(QFont("Comic Sans MS", 70));
@@ -123,33 +137,44 @@ void MainWindow::check() {
             lose->show();
             newgame->show();
         }
-        else {
+        else if(scared1 || scared2 || scared3 || scared4){
             point += 200;
-            if(abs(ptr1pos.x()-ptrpos.x())+abs(ptr1pos.y()-ptrpos.y()) < 30)
+            if(abs(ptr1pos.x()-ptrpos.x())+abs(ptr1pos.y()-ptrpos.y()) < 30) {
+                scared1 = false;
                 ptr1->init();
-            if(abs(ptr2pos.x()-ptrpos.x())+abs(ptr2pos.y()-ptrpos.y()) < 30)
+            }
+            if(abs(ptr2pos.x()-ptrpos.x())+abs(ptr2pos.y()-ptrpos.y()) < 30) {
+                scared2 = false;
                 ptr2->init();
-            if(abs(ptr3pos.x()-ptrpos.x())+abs(ptr3pos.y()-ptrpos.y()) < 30)
+            }
+            if(abs(ptr3pos.x()-ptrpos.x())+abs(ptr3pos.y()-ptrpos.y()) < 30) {
+                scared3 = false;
                 ptr3->init();
-            if(abs(ptr4pos.x()-ptrpos.x())+abs(ptr4pos.y()-ptrpos.y()) < 30)
+            }
+            if(abs(ptr4pos.x()-ptrpos.x())+abs(ptr4pos.y()-ptrpos.y()) < 30) {
+                scared4 = false;
                 ptr4->init();
+            }
         }
     }
     if(int(ptr->x()+5) % 20 == 0 && int(ptr->y()+5) % 20 == 0) {
         int row = int(ptr->y()+5) / 20;
         int col = int(ptr->x()+5) / 20;
-        //qDebug() << row << "" << col;
         if(map[row][col]  == "1" || map[row][col] == "2") {
             if(map[row][col] == "1")
                 point += 10;
-            else if(map[row][col] == "2") {
+            else if(map[row][col] == "2") {//frightened mode
                 point += 50;
                 scared = true;
+                scared1 = true;
+                scared2 = true;
+                scared3 = true;
+                scared4 = true;
                 ptr1->changemode(1);
                 ptr2->changemode(1);
                 ptr3->changemode(1);
                 ptr4->changemode(1);
-                frighten->start(10000);
+                frighten->start(5000);
             }
             delete item[row][col];
             map[row][col] = "3";
@@ -161,13 +186,13 @@ void MainWindow::check() {
             }
         }
         score->setPlainText(QString("%1").arg(QString::number(point)));
-        //qDebug() << point;
     }
 }
 
 void MainWindow::play() {
     start->hide();
     title->hide();
+    pause->show();
     ptr->play();
     ptr1->play();
     ptr2->play();
@@ -182,13 +207,12 @@ void MainWindow::stop() {
     ptr2->stop();
     ptr3->stop();
     ptr4->stop();
+    pause->hide();
 }
 
 void MainWindow::pacinfo() {
-    if(int(ptr1->x()+5) % 20 == 0 && int(ptr1->y()+5) % 20 == 0) {
+    if(int(ptr1->x()+5) % 20 == 0 && int(ptr1->y()+5) % 20 == 0)
         ptr1->setpac(int(ptr->x()), int(ptr->y()));
-        //qDebug() << ptr->pos();
-    }
     if(int(ptr2->x()+5) % 20 == 0 && int(ptr2->y()+5) % 20 == 0)
         ptr2->setpac(int(ptr->x()), int(ptr->y()));
     if(int(ptr3->x()+5) % 20 == 0 && int(ptr3->y()+5) % 20 == 0)
@@ -198,17 +222,41 @@ void MainWindow::pacinfo() {
 }
 
 void MainWindow::mode() {
-   frighten->stop();
-   ptr1->changemode(0);
-   ptr2->changemode(0);
-   ptr3->changemode(0);
-   ptr4->changemode(0);
-   scared = false;
+    frighten->stop();
+    ptr1->changemode(0);
+    ptr2->changemode(0);
+    ptr3->changemode(0);
+    ptr4->changemode(0);
+    scared = false;
+    scared1 = false;
+    scared2 = false;
+    scared3 = false;
+    scared4 = false;
 }
 
 void MainWindow::quit() {
     qApp->quit();
     QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
+}
+
+void MainWindow::stopgame() {
+    stopGame->start(5000);
+    ptr->stop();
+    ptr1->stop();
+    ptr2->stop();
+    ptr3->stop();
+    ptr4->stop();
+    pause->hide();
+}
+
+void MainWindow::recover() {
+    stopGame->stop();
+    ptr->play();
+    ptr1->play();
+    ptr2->play();
+    ptr3->play();
+    ptr4->play();
+    pause->show();
 }
 
 MainWindow::~MainWindow()

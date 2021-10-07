@@ -22,11 +22,11 @@ Pacman::Pacman() {
 
     start = false;
     direction = 0;
-    tmp = 0;//
+    tmp = 4;//
     row = 23;
     col = 13;
     this->setPos(20*col-5, 20*row-5);
-    movable = 0;//
+    movable = 4;//
     i = 0;
 
 }
@@ -61,6 +61,7 @@ void Pacman::keyPressEvent(QKeyEvent *event) {
 }
 
 void Pacman::move() {
+if(start) {
     if(int(this->x()+5) % 20 == 0 && int(this->y()+5) % 20 == 0) {
         row = int(this->y()+5) / 20;
         col = int(this->x()+5) / 20;
@@ -94,7 +95,9 @@ void Pacman::move() {
             setX(int(this->x() + 1));
         }
     }
+    qDebug() << movable;
     //qDebug() << this->pos();
+}
 }
 
 void Pacman::check() {
@@ -145,6 +148,7 @@ void Pacman::canmove(int i) {
 
 void Pacman::change() {
     //qDebug() << i;
+if(start) {
     if(movable == 0)
         return;
     setPixmap(shape[movable-1][i].scaled(35,35));
@@ -152,16 +156,23 @@ void Pacman::change() {
     if(i == 4)
         i = 0;
 }
-
+}
 void Pacman::play() {
-    movable = 4;
-    tmp = 4;
+    //movable = 4;
+    //tmp = 4;
     start = true;
 }
 
 void Pacman::stop() {
-    movable = 0;
-    tmp = 0;
-    direction = 0;
+    //movable = 0;
+    //tmp = 0;
+    //direction = 0;
     start = false;
+}
+
+void Pacman::pause() {
+    if(start)
+        start = false;
+    else
+        start = true;
 }

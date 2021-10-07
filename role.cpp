@@ -33,3 +33,7 @@ void Role::changemode(int i) {
 void Role::init() {
 
 }
+
+void Role::pause() {
+
+}

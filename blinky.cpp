@@ -15,10 +15,10 @@ Blinky::Blinky() {
     row = 11;
     col = 13;
     this->setPos(20*col-5, 20*row-5);
-    direction = 4;
+    //direction = 4;
     i = 0;
     mode = 0;
-    movable = 0;
+    movable = 4;
     start = false;
     scared = false;
 }
@@ -108,10 +108,9 @@ void Blinky::change() {
         else if(mode == 1)
             setPixmap(frightened[0][i].scaled(35,35));
         if(i == 0)
-            i =1;
-        else {
+            i = 1;
+        else
             i = 0;
-        }
     }
 }
 
@@ -124,9 +123,8 @@ void Blinky::changemode(int i) {
     mode = i;
     if(i == 0)
         scared = false;
-    else {
+    else
         scared = true;
-    }
 }
 
 void Blinky::init() {

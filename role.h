@@ -16,6 +16,7 @@ public:
     virtual void setpac(int x, int y);
     virtual void changemode(int i);
     virtual void init();
+    virtual void pause();
     QTimer *timer1, *timer2;
     QString map[31][28];
 public slots:
